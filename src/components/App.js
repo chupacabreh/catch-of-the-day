@@ -1,16 +1,21 @@
-import React from 'react';
-import Header from './Header';
-import Order from './Order';
-import Inventory from "./Inventory"; 
+import React from "react";
+import PropTypes from "prop-types";
+import Header from "./Header";
+import Order from "./Order";
+import Inventory from "./Inventory";
 import sampleFishes from "../sample-fishes";
-import Fish from './Fish';
-import base from '../base';
+import Fish from "./Fish";
+import base from "../base";
 
 class App extends React.Component {
   state = {
     fishes: {},
     order: {}
   };
+
+  static propTypes = {
+    match: PropTypes.object
+  }
 
   componentDidMount(){
     const { params } = this.props.match;
@@ -35,11 +40,6 @@ class App extends React.Component {
 
 
   addFish = fish => {
-    // how to update state
-    // 1. take a copy of existing state using setState api
-    // you take a copy because you don't want to modify original state directly
-    // this is known as a mutation (can cause performance issues etc)
-
     const fishes= { ...this.state.fishes }; //... is an object spread and takes a copy
     // 2. add our new to that fishes variable
     fishes[`fish${Date.now()}`] = fish;
@@ -92,7 +92,7 @@ class App extends React.Component {
     return(
       <div className="catch-of-the-day">
         <div className="menu">
-          <Header tagline="Fresh Seafood Market"/>
+          <Header tagline="Fresh Seafood Market" />
           <ul className="fishes">
             {Object.keys(this.state.fishes).map(key => (
               <Fish 
@@ -115,6 +115,7 @@ class App extends React.Component {
           deleteFish= {this.deleteFish}
           loadSampleFishes={this.loadSampleFishes}
           fishes={this.state.fishes}
+          storeId={this.props.match.params.storeId}
         />
       </div>
     )
